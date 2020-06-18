@@ -1,0 +1,16 @@
+{
+	"name": "llvm_experiments",
+	"dockerFile": "../docker-clang/10.Dockerfile",
+	"extensions": [
+		"ms-vscode.cpptools",
+		"eamodio.gitlens",
+		"ms-vscode.cmake-tools"
+	],
+	"containerEnv": {
+		"DISPLAY": "unix:0"
+	},
+	"mounts": [
+		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"
+	  ],
+	"runArgs": ["--privileged"]
+}
