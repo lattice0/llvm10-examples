@@ -1,0 +1,1 @@
+clang++ -g main.cpp `llvm-config --cxxflags --ldflags --libs core BitWriter --system-libs` -lpthread -o main
