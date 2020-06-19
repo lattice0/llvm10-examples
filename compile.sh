@@ -1,0 +1,1 @@
+sudo docker run -v $PWD/src:/home/project llvm-builder /bin/bash "/home/project/build.sh"
