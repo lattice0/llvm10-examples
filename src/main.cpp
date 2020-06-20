@@ -11,7 +11,7 @@
 
 using namespace llvm;
 
-Module *makeLLVMModule(LLVMContext& Context);
+Module *makeLLVMModule(LLVMContext &Context);
 
 int main(int argc, char **argv)
 {
@@ -30,17 +30,16 @@ int main(int argc, char **argv)
     return 0;
 }
 
-Module *makeLLVMModule(LLVMContext& Context)
+Module *makeLLVMModule(LLVMContext &Context)
 {
     Module *mod = new Module("mul_add", Context);
 
-    FunctionType *FibFTy = FunctionType::get(Type::getInt32Ty(Context),
-                                             {Type::getInt32Ty(Context),
-                                              Type::getInt32Ty(Context),
-                                              Type::getInt32Ty(Context)},
-                                             false);
-
-    Function *mul_add = Function::Create(FibFTy, Function::ExternalLinkage, "mul_add", mod);
+    FunctionCallee mul_add_fun = mod->getOrInsertFunction("mul_add",
+                                                          Type::getInt32Ty(Context),
+                                                          Type::getInt32Ty(Context),
+                                                          Type::getInt32Ty(Context),
+                                                          Type::getInt32Ty(Context));
+    Function *mul_add = mod->getFunction("mul_add");
     mul_add->setCallingConv(CallingConv::C);
     Function::arg_iterator args = mul_add->arg_begin();
     Value *x = args++;
