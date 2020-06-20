@@ -7,6 +7,7 @@
 #include "llvm/IR/Verifier.h"
 #include "llvm/IR/IRPrintingPasses.h"
 #include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/LegacyPassManager.h"
 
 using namespace llvm;
 
@@ -16,13 +17,15 @@ int main(int argc, char **argv)
 {
     LLVMContext Context;
     Module *Mod = makeLLVMModule(Context);
-    
+
     raw_fd_ostream r(fileno(stdout), false);
     verifyModule(*Mod, &r);
 
     //Prints the module IR
     ModulePass *m = createPrintModulePass(outs(), "Module IR printer");
-    m->runOnModule(*Mod);
+    legacy::PassManager PM;
+    PM.add(m);
+    PM.run(*Mod);
     delete Mod;
     return 0;
 }
