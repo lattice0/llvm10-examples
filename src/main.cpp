@@ -8,6 +8,8 @@
 #include "llvm/IR/IRPrintingPasses.h"
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/LegacyPassManager.h"
+#include "llvm/Bitcode/BitcodeWriter.h"
+#include <stdio.h>
 
 using namespace llvm;
 
@@ -26,6 +28,10 @@ int main(int argc, char **argv)
     legacy::PassManager PM;
     PM.add(m);
     PM.run(*Mod);
+
+    FILE* mul_add_file = fopen("mul_add.bc", "w+");
+    raw_fd_ostream bitcodeWriter(fileno(mul_add_file), true);
+    WriteBitcodeToFile(*Mod, bitcodeWriter);
     delete Mod;
     return 0;
 }
