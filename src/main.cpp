@@ -16,10 +16,14 @@ int main(int argc, char **argv)
 {
     LLVMContext Context;
     Module *Mod = makeLLVMModule(Context);
+    
+    raw_fd_ostream r(fileno(stdout), false);
+    verifyModule(*Mod, &r);
+
     //Prints the module IR
     ModulePass *m = createPrintModulePass(outs(), "Module IR printer");
     m->runOnModule(*Mod);
-
+    delete Mod;
     return 0;
 }
 
